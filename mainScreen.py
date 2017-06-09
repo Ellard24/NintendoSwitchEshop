@@ -4,6 +4,13 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 
+#Screen Manager
+class SM(ScreenManager):
+    def __init__(self, **kwargs):
+        super(SM,self).__init__(**kwargs)
+        sc = mainScreen.SelectionScreen()
+        amScene = american.AmericanScene()
+        self.add_widget(sc)
 
 class SelectionScreen(Screen):
 
@@ -11,6 +18,13 @@ class SelectionScreen(Screen):
         super(SelectionScreen, self).__init__(**kwargs)
         layout = Grid()
         self.add_widget(layout)
+
+
+class AmericanScreen(Screen):
+
+    def __init__(self, **kwargs):
+        super(AmericanScreen, self).__init__(**kwargs)
+        
 
 class Grid(GridLayout):
 
