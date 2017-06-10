@@ -8,65 +8,82 @@ from kivy.uix.button import Button
 class SM(ScreenManager):
     def __init__(self, **kwargs):
         super(SM,self).__init__(**kwargs)
-        sc = SelectionScreen()
-        amScene = AmericanScreen()
-        self.add_widget(sc)
-        self.add_widget(amScene)
+        sc = SelectionScreen(name="first")
+        amScreen = AmericanScreen(name='second')
+        eurScreen = EuropeanScreen(name='third')
+        japScreen = JapaneseScreen(name='fourth')
 
+        self.add_widget(sc)
+
+        #adding widget screens
+        self.add_widget(amScreen)
+        self.add_widget(eurScreen)
+        self.add_widget(japScreen)
+
+
+'''
+Main Selection Screen for picking the region
+'''
 class SelectionScreen(Screen):
 
     def __init__(self, **kwargs):
         super(SelectionScreen, self).__init__(**kwargs)
-        layout = FloatL()
-        self.add_widget(layout)
+        layout = FloatLayout()
 
-
-class AmericanScreen(Screen):
-
-    def __init__(self, **kwargs):
-        super(AmericanScreen, self).__init__(**kwargs)
-        
-
-class FloatL(FloatLayout):
-
-    def __init__(self, **kwargs):
-        super(FloatL, self).__init__(**kwargs)
-        self.cols = 1
-
+        #button and label placement
         #Page name
         nameLabel = Label(text="Region Selection",
                         color=[1,1,1,1],
                         pos_hint = {'x': 0, 'y':0.4})
         print(nameLabel)
-        self.add_widget(nameLabel)
+        layout.add_widget(nameLabel)
 
         #Version
         versionLabel = Label(text="Version 1.0.0 Ellard Gerritsen",
                             color=[1,1,1,1],
                             pos_hint={'x': 0, 'y': -0.45})
-        self.add_widget(versionLabel)
+        layout.add_widget(versionLabel)
 
         #Button configuration
         b1 = Button(text="American Games", 
             pos_hint={'x': 0.40, 'y': 0.5},
             size_hint_x = 0.2,
             size_hint_y = 0.2)
-        b1.bind(on_press=self.buttonTest)
-        self.add_widget(b1)
+        b1.bind(on_press=lambda *args: self.buttonTest('first'))
+        layout.add_widget(b1)
 
         b2 = Button(text="European Games",
              pos_hint={'x': 0.40, 'y': 0.3},
              size_hint_x = 0.2,
              size_hint_y = 0.2)
-        b2.bind(on_press=self.buttonTest)
-        self.add_widget(b2)
+        b2.bind(on_press=lambda *args: self.buttonTest('second'))
+        layout.add_widget(b2)
 
         b3 = Button(text="Japanese Games",
              pos_hint={'x': 0.40, 'y': 0.1},
              size_hint_x = 0.2,
              size_hint_y = 0.2)
-        b3.bind(on_press=self.buttonTest)
-        self.add_widget(b3)
+        b3.bind(on_press=lambda *args: self.buttonTest('third'))
+        layout.add_widget(b3)
 
-    def buttonTest(self,instance):
-        print("All good")
+        self.add_widget(layout)
+    
+    def buttonTest(self, screenName):
+        print(screenName)
+
+
+class AmericanScreen(Screen):
+
+    def __init__(self, **kwargs):
+        super(AmericanScreen, self).__init__(**kwargs)
+    
+
+class EuropeanScreen(Screen):
+
+    def __init__(self, **kwargs):
+        super(EuropeanScreen, self).__init__(**kwargs)
+
+class JapaneseScreen(Screen):
+
+    def __init__(self, **kwargs):
+        super(JapaneseScreen, self).__init__(**kwargs)
