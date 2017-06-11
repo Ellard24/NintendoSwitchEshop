@@ -4,6 +4,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 
+#temporary test
+import pyRequests
+
 #Screen Manager
 class SM(ScreenManager):
     def __init__(self, **kwargs):
@@ -20,6 +23,8 @@ class SM(ScreenManager):
         self.add_widget(eurScreen)
         self.add_widget(japScreen)
 
+    def screenChanger():
+        print("Function was called")
 
 '''
 Main Selection Screen for picking the region
@@ -70,6 +75,8 @@ class SelectionScreen(Screen):
     
     def buttonTest(self, screenName):
         print(screenName)
+        requester = pyRequests.webRequest()
+        print(requester.makeRequest('https://secret-depths-21261.herokuapp.com/'))
 
 
 class AmericanScreen(Screen):
