@@ -3,6 +3,7 @@ We will handle web requests here
 
 '''
 import requests
+import json
 
 class webRequest():
 
@@ -11,4 +12,6 @@ class webRequest():
     
     def makeRequest(self,url):
         r = requests.get(url)
-        print(r.json())
+        games = []
+        if r.status_code == requests.codes.ok:
+            print(r.json())
