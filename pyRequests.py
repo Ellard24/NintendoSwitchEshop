@@ -14,4 +14,7 @@ class webRequest():
         r = requests.get(url)
         games = []
         if r.status_code == requests.codes.ok:
-            print(r.json())
+            return r.json()
+
+    def makeList(self, data):
+        info = {}
