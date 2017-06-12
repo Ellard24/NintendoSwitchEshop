@@ -49,7 +49,7 @@ class AmericanScreen(Screen):
         #Create a button for each game in the list and append to scrollview layout
         for i in range(len(newData['results'])):
             btn = Button(text=str(newData['results'][i]['game']['title']), size_hint_y=None, height=40)
-            btn.gameInfo = newData['results'][i]['game']['title']
+            btn.gameInfo = newData['results'][i]['game']
             #btn.bind(on_press=lambda *args: self.toGamePage(btn.gameInfo))
             btn.bind(on_press=partial(self.toGamePage, btn.gameInfo))
             layout.add_widget(btn)
@@ -74,7 +74,7 @@ class AmericanScreen(Screen):
     def on_pre_leave(self, *args):
         if self.getGame():
             self.manager.gameName = self.getGame()
-            print("From on leave of american screen: " + str(self.manager.gameName))
+            #print("From on leave of american screen: " + str(self.manager.gameName))
 
     #Returns to selection screen using screen manager 
     def goBack(self, screenName):

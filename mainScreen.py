@@ -3,7 +3,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.uix.image import Image
+from kivy.uix.image import Image, AsyncImage
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 
@@ -116,7 +116,9 @@ class GameScreen(Screen):
                     size_hint_x = 0.1,
                     size_hint_y = 0.1)
         b1.bind(on_press = lambda *args: self.goBack('second'))
-        floater.add_widget(b1)
+        #floater.add_widget(b1)
+        self.add_widget(b1)
+
         self.add_widget(floater)
 
         #Display all the relavent info
@@ -125,7 +127,32 @@ class GameScreen(Screen):
 
     def on_enter(self, *args):
         print("entered gameScreen")
-        print(self.parent.gameName)
+        #print(self.parent.gameName)
 
-    def printInfo(self):
-        pass
+        #Add labels for all the data
+        try:
+            gName = Label(text=str(self.parent.gameName['title']), pos_hint={'x': 0, 'center_y': .4})
+        except:
+            gName = Label(text="Undefined", pos_hint={'x': 0, 'center_y': .4})
+        try:
+            gPrice = Label(text= "$" + str(self.parent.gameName['price']), pos_hint={'x': 0, 'center_y': .3})
+        except:
+            gPrice = Label(text="Undefined", pos_hint={'x': 0, 'center_y': .3})
+        try:
+            gDate = Label(text=str(self.parent.gameName['releaseDate']), pos_hint={'x': 0, 'center_y': .2})
+        except:
+            gDate = Label(text="Undefined", pos_hint={'x': 0, 'center_y': .2})
+        try:
+            gURL = self.parent.gameName['art']
+            gImage = AsyncImage(source= gURL, pos_hint={'x': 0, 'center_y': .7})
+        except:
+            gImage = Image(source="imageError.png",pos_hint={'x': 0, 'center_y': .7})
+
+        self.children[0].add_widget(gName)
+        self.children[0].add_widget(gPrice)
+        self.children[0].add_widget(gDate)
+        self.children[0].add_widget(gImage)
+        
+    def on_pre_leave(self):
+        self.children[0].clear_widgets()
+
