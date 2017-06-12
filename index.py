@@ -16,7 +16,7 @@ class MyApp(App):
         return home
 
     def on_stop(self):
-        print("Bye")
+        pass
 
 if __name__ == '__main__':
     MyApp().run()

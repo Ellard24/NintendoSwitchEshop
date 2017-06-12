@@ -9,8 +9,11 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 
 import pyRequests
+from functools import partial
 
 class AmericanScreen(Screen):
+
+    gameName = "Not set yet"
 
     def __init__(self, **kwargs):
         super(AmericanScreen, self).__init__(**kwargs)
@@ -19,9 +22,6 @@ class AmericanScreen(Screen):
         requester = pyRequests.webRequest()
         newData = requester.makeRequest('https://secret-depths-21261.herokuapp.com/')
         
-        #print(len(newData['results']))
-        #print(newData['results'][0]['game']['title'])
-
         floater = FloatLayout(size_hint=(1, 1))
 
         #Create the scrollview to be only a certain portion of the Application window
@@ -49,6 +49,9 @@ class AmericanScreen(Screen):
         #Create a button for each game in the list and append to scrollview layout
         for i in range(len(newData['results'])):
             btn = Button(text=str(newData['results'][i]['game']['title']), size_hint_y=None, height=40)
+            btn.gameInfo = newData['results'][i]['game']['title']
+            #btn.bind(on_press=lambda *args: self.toGamePage(btn.gameInfo))
+            btn.bind(on_press=partial(self.toGamePage, btn.gameInfo))
             layout.add_widget(btn)
 
         #Append all widgets to their appropriate parent
@@ -58,8 +61,20 @@ class AmericanScreen(Screen):
         
 
     #We want to expand a box below the button pressed which will contain all the info about a certain game
-    def expandInfo(self, game):
-        pass
+    def toGamePage(self, game, *args):
+        self.gameName = game
+        self.manager.current = 'fifth'
+
+    def getGame(self):
+        return self.gameName
+
+    def on_enter(self):
+        print("Entered american")
+
+    def on_pre_leave(self, *args):
+        if self.getGame():
+            self.manager.gameName = self.getGame()
+            print("From on leave of american screen: " + str(self.manager.gameName))
 
     #Returns to selection screen using screen manager 
     def goBack(self, screenName):
