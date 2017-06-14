@@ -11,6 +11,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
 from functools import partial
 
+#webbrowser
+import webbrowser
 
 #temporary test
 import pyRequests
@@ -99,23 +101,27 @@ class SelectionScreen(Screen):
 
         #Add the Scrollview which contains the RSS Feed Information
         #RSS = RSSFeedView()
-        RSS = RSSFeedView(size_hint=(.8, .2) ,
+        RSS = RSSFeedView(size_hint=(1, .2) ,
                 pos_hint={'center_x': .55, 'center_y': .25}, do_scroll_x=False)
         rssList = RSS.parseFeed("http://www.nintendolife.com/feeds/latest")
-        print(rssList)
+        #print(rssList)
         grid = GridLayout(cols=1, padding=10, spacing=10,
-                size_hint=(None, None), width=500)
+                size_hint=(None, None), width=700)
         grid.bind(minimum_height=grid.setter('height'))
 
         for i in range(len(rssList)):
-            btn = Button(text=str(rssList[i]),size_hint_y=None, height=20)
+            btn = Button(text=str(rssList[i][0]),size_hint_x = 1,size_hint_y=None, height=30,
+                        background_color=[.5,.5,.5,1])
+            btn.bind(on_press=partial(self.setHyperLink, rssList[i][1]))
             grid.add_widget(btn)
 
         RSS.add_widget(grid)
         layout.add_widget(RSS)
 
         self.add_widget(layout)
-
+    
+    def setHyperLink(self, url, *args):
+        webbrowser.open(url)
 
 
     def changePage(self,screenName):

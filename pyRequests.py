@@ -18,10 +18,12 @@ class webRequest():
             return r.json()
 
     def getFeed(self, url):
-        info = []
+        container = []
         feed = feedparser.parse(url)
         for key in feed["entries"]:
+            info = []
             #print(key["title"])
             info.append(key["title"])
-            #print(key["link"])
-        return info
+            info.append(key["link"])
+            container.append(info)
+        return container
