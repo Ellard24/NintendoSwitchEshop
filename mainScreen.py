@@ -66,7 +66,6 @@ class SelectionScreen(Screen):
                         color=[1,1,1,1],
                         pos_hint = {'x': 0, 'y':0.4},
                         font_size = 30)
-        print(nameLabel)
         layout.add_widget(nameLabel)
 
         #Version
@@ -97,11 +96,54 @@ class SelectionScreen(Screen):
         b3.bind(on_press=lambda *args: self.changePage('fourth'))
         layout.add_widget(b3)
 
+
+        #Add the Scrollview which contains the RSS Feed Information
+        #RSS = RSSFeedView()
+        RSS = RSSFeedView(size_hint=(.8, .2) ,
+                pos_hint={'center_x': .55, 'center_y': .25}, do_scroll_x=False)
+        rssList = RSS.parseFeed("http://www.nintendolife.com/feeds/latest")
+        print(rssList)
+        grid = GridLayout(cols=1, padding=10, spacing=10,
+                size_hint=(None, None), width=500)
+        grid.bind(minimum_height=grid.setter('height'))
+
+        for i in range(len(rssList)):
+            btn = Button(text=str(rssList[i]),size_hint_y=None, height=20)
+            grid.add_widget(btn)
+
+        RSS.add_widget(grid)
+        layout.add_widget(RSS)
+
         self.add_widget(layout)
+
+
 
     def changePage(self,screenName):
         print(screenName)
         self.manager.current = screenName
+
+
+
+
+
+
+class RSSFeedView(ScrollView):
+
+    def __init__(self, **kwargs):
+        super(RSSFeedView, self).__init__(**kwargs)
+        self.info = []
+
+    def parseFeed(self,url):
+        
+        feeder = pyRequests.webRequest()
+        self.info = feeder.getFeed(url)
+        return self.info
+
+
+
+
+
+
 
 class GameScreen(Screen):
     
