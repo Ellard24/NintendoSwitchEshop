@@ -28,12 +28,12 @@ class AmericanScreen(Screen):
         scroller = ScrollView(size_hint=(.7, .7) ,
                 pos_hint={'center_x': .55, 'center_y': .5}, do_scroll_x=False)
         
-        layout = GridLayout(cols=1, padding=10, spacing=10,
+        layout = GridLayout(cols=1, padding=0, spacing=0,
                 size_hint=(None, None), width=500)
         layout.bind(minimum_height=layout.setter('height'))
         
         #Sets up background image and stretches image to fit screen
-        backImage = Image(source='background2.png', allow_stretch = True, keep_ratio = False)
+        backImage = Image(source='background4.png', allow_stretch = True, keep_ratio = False)
         floater.add_widget(backImage)
 
         
